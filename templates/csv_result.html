@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         class="center-img" style="width:120px;">
+
+    <h2>CSV Prediction Summary</h2>
+
+    {% for r in results %}
+        <p style="font-size:18px;">
+            <strong>App {{ r.id }}</strong>
+
+            {% if r.label == "SAFE" %}
+                <img src="{{ url_for('static', filename='images/safe.png') }}"
+                     style="width:40px; vertical-align:middle; margin-left:10px;">
+            {% else %}
+                <img src="{{ url_for('static', filename='images/malicious.png') }}"
+                     style="width:40px; vertical-align:middle; margin-left:10px;">
+            {% endif %}
+        </p>
+
+        <div class="bar-bg">
+            <div class="bar-fill"
+                 data-prob="{{ r.prob }}"
+                 data-color="{{ r.color }}"
+                 id="bar{{ r.id }}"
+                 style="--final-width: {{ r.prob }}%;">
+                {{ r.label }} - {{ r.prob }}%
+            </div>
+        </div>
+    {% endfor %}
+
+    <p style="text-align:center;">
+        <a href="/">Go Back</a>
+    </p>
+
+</div>
+
+<script>
+// apply width + color to all bars
+document.querySelectorAll(".bar-fill").forEach(bar => {
+    bar.style.width = bar.dataset.prob + "%";
+    bar.style.backgroundColor = bar.dataset.color;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manual Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Logo -->
+    <img src="{{ url_for('static', filename='images/logo.png') }}"
+         class="center-img" style="width:120px;">
+
+    <h2>Prediction Result</h2>
+
+    <!-- Prediction Bar -->
+    <div class="bar-bg">
+        <div class="bar-fill"
+             id="manualBar"
+             data-prob="{{ prob_percent }}"
+             data-color="{{ color }}"
+             style="--final-width: {{ prob_percent }}%;">
+            {{ result }} - {{ prob_percent }}%
+        </div>
+    </div>
+
+    <!-- SAFE/MALICIOUS IMAGE -->
+    {% if result == "SAFE" %}
+        <img src="{{ url_for('static', filename='images/safe.png') }}"
+             class="center-img" style="width:160px;">
+    {% else %}
+        <img src="{{ url_for('static', filename='images/malicious.png') }}"
+             class="center-img" style="width:160px;">
+    {% endif %}
+
+    <p style="text-align:center;">
+        <a href="/">Go Back</a>
+    </p>
+
+</div>
+
+<script>
+const bar = document.getElementById("manualBar");
+bar.style.width = bar.dataset.prob + "%";
+bar.style.backgroundColor = bar.dataset.color;
+</script>
+
+</body>
+</html>
